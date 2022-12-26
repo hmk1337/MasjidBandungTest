@@ -1,0 +1,18 @@
+###
+@host = http://localhost:8080
+
+###
+GET {{host}}/info
+Content-Type: application/json
+
+###
+POST {{host}}/coreography/go
+Content-Type: application/json
+
+###
+POST {{host}}/coreography/check
+Content-Type: application/json
+
+###
+POST {{host}}/reset
+Content-Type: application/json

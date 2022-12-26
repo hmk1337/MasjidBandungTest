@@ -1,0 +1,99 @@
+###
+@host = http://localhost:8080
+
+# coba:
+# reset - E - R
+# reset - 1 - E - 1 - R
+# reset - 2 - E - 2 - R
+# reset - 3 - E - 3 - R
+# reset - 4 - E - 4 - R
+# reset - 5 - E - 5 - R
+# reset - 1 - 2 - 3 - 4 - 5
+# reset - 5 - 4 - 3 - 2 - 1
+# reset - 1 - 3 - 5 - 3 - 1
+# reset - 1 - 4 - 1 - 5 - 1
+# reset - 2 - 4 - 2 - 5 - 2
+
+###
+POST {{host}}/coreography/set
+Content-Type: application/json
+
+{
+  "coreography": "FullRetract (R)",
+  "position": [0,0,0,0],
+  "color": ["#ffffff","#ffffff","#ffffff","#ffffff"],
+  "Time": 10,
+  "Speed": 0
+}
+
+###
+POST {{host}}/coreography/set
+Content-Type: application/json
+
+{
+  "coreography": "FullExtend (E)",
+  "position": [100,100,100,100],
+  "color": ["#ffffff","#ffffff","ffffff","#ffffff"],
+  "Time": 10,
+  "Speed": 0
+}
+
+###
+POST {{host}}/coreography/set
+Content-Type: application/json
+
+{
+  "coreography": "Test 1",
+  "position": [50,0,50,50],
+  "color": ["#ff0000","#ffff00","#00ffff","#00ffff"],
+  "Time": 10,
+  "Speed": 0
+}
+
+###
+POST {{host}}/coreography/set
+Content-Type: application/json
+
+{
+  "coreography": "Test 2",
+  "position": [50,100,50,50],
+  "color": ["#ffff00","#00ff00","#00ffff","#0000ff"],
+  "Time": 10,
+  "Speed": 0
+}
+
+###
+POST {{host}}/coreography/set
+Content-Type: application/json
+
+{
+  "coreography": "Test 3",
+  "position": [100,50,100,100],
+  "color": ["#00ff00","#00ffff","#0000ff","#ff00ff"],
+  "Time": 10,
+  "Speed": 0
+}
+
+###
+POST {{host}}/coreography/set
+Content-Type: application/json
+
+{
+  "coreography": "Test 4",
+  "position": [50,0,50,50],
+  "color": ["#00ffff","#0000ff","#ff00ff","#ff0000"],
+  "Time": 10,
+  "Speed": 0
+}
+
+###
+POST {{host}}/coreography/set
+Content-Type: application/json
+
+{
+  "coreography": "Test 5",
+  "position": [50,0,0,0],
+  "color": ["#0000ff","#ff00ff","#ff0000","#ffff00"],
+  "Time": 10,
+  "Speed": 0
+}

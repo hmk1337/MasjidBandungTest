@@ -1,0 +1,14 @@
+POST http://localhost:8080/reset
+
+{}
+###
+GET http://localhost:8080/status
+
+###
+POST http://localhost:8080/manual
+Content-Type: application/json
+
+{
+  "position": [50,50],
+  "speed": 1000
+}

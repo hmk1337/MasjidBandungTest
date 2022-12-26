@@ -1,0 +1,16 @@
+[Unit]
+Description=MejaPasir
+Documentation=https://nirmala-table.art
+After=network.target
+
+[Service]
+#Environment=NODE_PORT=8003
+Type=simple
+User=root
+WorkingDirectory=/home/pi/MasjidBandung/
+ExecStart=/home/pi/MasjidBandung/bin/Release/net6.0/linux-arm/publish/MasjidBandung
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
