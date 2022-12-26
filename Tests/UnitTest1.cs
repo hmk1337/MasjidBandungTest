@@ -56,17 +56,17 @@ public class TestData : IEnumerable<object?[]> {
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
 
-public class UnitTest1 {
-    [Theory]
-    [ClassData(typeof(TestData))]
-    public void Test1(MotorCommandRequest cmd, double[] positions, int duration, int[] speeds) {
-        Debug.Assert(cmd.Position != null, "cmd.Position != null");
-        Debug.Assert(cmd.Time != null, "cmd.Time != null");
-        var result = MotorCommand.WithDuration(cmd.Position, cmd.Time.Value);
-        result.Speeds.Should().Equal(speeds, "Kecepatan tidak sesuai");
-        result.NewPositions.Should().Equal(positions, "Posisi tidak sesuai");
-        result.Duration.Should().Be(duration);
-        // Assert.Equal(result.NewPositions, position);
-        // Assert.Equal(result.Duration, duration);
-    }
-}
+// public class UnitTest1 {
+//     [Theory]
+//     [ClassData(typeof(TestData))]
+//     public void Test1(MotorCommandRequest cmd, double[] positions, int duration, int[] speeds) {
+//         Debug.Assert(cmd.Position != null, "cmd.Position != null");
+//         Debug.Assert(cmd.Time != null, "cmd.Time != null");
+//         var result = MotorCommand.WithDuration(cmd.Position, cmd.Time.Value);
+//         result.Speeds.Should().Equal(speeds, "Kecepatan tidak sesuai");
+//         result.NewPositions.Should().Equal(positions, "Posisi tidak sesuai");
+//         result.Duration.Should().Be(duration);
+//         // Assert.Equal(result.NewPositions, position);
+//         // Assert.Equal(result.Duration, duration);
+//     }
+// }

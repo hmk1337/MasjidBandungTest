@@ -3,6 +3,8 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Text.Json;
+using MasjidBandung.Configurations;
+using Microsoft.Extensions.Options;
 using rpi_ws281x;
 using Controller = rpi_ws281x.Controller;
 
@@ -15,13 +17,17 @@ public interface ILedService {
     void SetColor(string[] color);
     Task SetColorAsync();
     void SetColor();
+    void SetColor(int index, string color);
 }
 
-public class LedService : ILedService, IDisposable {
+public sealed class LedService : ILedService, IDisposable {
     // private PwmChannel _pwm;
+    private readonly ILogger<LedService> _logger;
     private static string[] _ledColors = {"#000000", "#000000", "#000000", "#000000"};
 
-    public LedService() {
+    public LedService(IOptions<MotorConfiguration> options, ILogger<LedService> logger) {
+        _logger = logger;
+        _ledColors = new string[options.Value.MotorCount];
         // _pwm = PwmChannel.Create(0, 1, 400, 0.8);
         // _pwm.Start();
         // var t = new Thread(() => _pwm.Start());
@@ -29,6 +35,7 @@ public class LedService : ILedService, IDisposable {
     }
 
     public void SetColor(string[] color) => _ledColors = color;
+    public void SetColor(int index, string color) => _ledColors[index] = color;
 
     public void SetColor() {
         var length = _ledColors.Length;
@@ -65,7 +72,9 @@ public class LedService : ILedService, IDisposable {
     );
 
     public void SetColorSegment(string ledColor, int start, int count) {
-        // if (ledColor.Length < 4) return;
+        // jika kosong, warna tidak berubah
+        if (string.IsNullOrEmpty(ledColor)) return;
+
         try {
             if (!ledColor.StartsWith('#')) {
                 ledColor = '#' + ledColor;
@@ -83,7 +92,8 @@ public class LedService : ILedService, IDisposable {
             // LedController.SetAll(color);
             led.Render();
         } catch (Exception ex) {
-            Console.WriteLine(ex.Message);
+            _logger.LogError(ex, "Failed to set color {Color}, {Start}", ledColor, start);
+            // Console.WriteLine(ex.Message);
         }
     }
 
@@ -110,15 +120,28 @@ public class LedService : ILedService, IDisposable {
         //     > 10.0 => "1",
         //     _ => "0"
         // };
-
-        var req = new {
-            value
-        };
-        await httpClient.PostAsJsonAsync<object>("http://localhost:9001/pwmpins", req);
+        try {
+            var req = new {
+                value
+            };
+            await httpClient.PostAsJsonAsync<object>("http://localhost:9001/pwmpins", req);
+        } catch (HttpRequestException e) {
+            _logger.LogError(e, "Failed to set environment LED to {Value}", value);
+        }
     }
 
     public void Dispose() {
         // _pwm.Dispose();
         GC.SuppressFinalize(this);
     }
+}
+
+public sealed class LedTestService : ILedService {
+    public Task SetColorAsync(string[] color) => Task.CompletedTask;
+    public void SetColorSegment(string ledColor, int start, int count) { }
+    public Task SetLedEnvirontment(double value) => Task.CompletedTask;
+    public void SetColor(string[] color) { }
+    public Task SetColorAsync() => Task.CompletedTask;
+    public void SetColor() { }
+    public void SetColor(int index, string color) { }
 }

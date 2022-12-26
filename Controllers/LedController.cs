@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using MasjidBandung.Common;
 using MasjidBandung.Models;
 
 namespace MasjidBandung.Controllers;
@@ -7,10 +8,10 @@ namespace MasjidBandung.Controllers;
 [ProducesResponseType(typeof(StatusOk), 200)]
 public class LedController : ControllerBase {
     private readonly ILedService _led;
-    private readonly IMotorService _motor;
+    private readonly Orchestrator _orchestrator;
 
-    public LedController(IMotorService motor, ILedService led) {
-        _motor = motor;
+    public LedController(Orchestrator orchestrator, ILedService led) {
+        _orchestrator = orchestrator;
         _led = led;
     }
 
@@ -24,8 +25,8 @@ public class LedController : ControllerBase {
         [FromBody, DefaultValue(new[] {"#ffffff", "#ffffff", "#ffffff", "#ffffff"})]
         string[]? color
     ) {
-        if (color is null || color.Length != _motor.Count) return ErrorResult.Create("Jumlah tidak sesuai");
-        for (int i = 0; i < _motor.Count; i++) {
+        if (color is null || color.Length != _orchestrator.Count) return ErrorResult.Create("Jumlah tidak sesuai");
+        for (int i = 0; i < _orchestrator.Count; i++) {
             _led.SetColorSegment(color[i], i * 24, 24);
         }
         return StatusOk.Create();

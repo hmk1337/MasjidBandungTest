@@ -1,3 +1,4 @@
+using MasjidBandung.Common;
 using MasjidBandung.Models;
 
 namespace MasjidBandung.Controllers;
@@ -5,37 +6,51 @@ namespace MasjidBandung.Controllers;
 [Produces("application/json")]
 [ProducesResponseType(typeof(CoreographyOkResult), 200)]
 [ProducesResponseType(typeof(ErrorResult), 400)]
-public class CoreographyController : ControllerBase {
-    private readonly IMotorService _motor;
-    private readonly ILedService _led;
+public sealed class CoreographyController : ControllerBase {
+    // private readonly IMotorService _motor;
+    // private readonly ILedService _led;
     private static string _coreoGraphyName = string.Empty;
 
     // private static IActionResult SendOk() => new OkObjectResult(new {status = "ok"});
     // private static IActionResult SendError(string? msg) => new OkObjectResult(new {status = "error", message = msg});
 
-    public CoreographyController(IMotorService motor, ILedService led) {
-        _motor = motor;
-        _led = led;
-    }
+    // public CoreographyController() {
+    //     // _motor = motor;
+    //     // _led = led;
+    // }
 
     /// <summary>
     /// Menerima perintah koreografi. Motor tidak langsung gerak.
     /// </summary>
     /// <param name="command"></param>
+    /// <param name="orchestrator"></param>
     /// <returns></returns>
     [HttpPost("/coreography/set")]
-    public IActionResult Set([FromBody] MotorCommandRequest command) {
+    public IActionResult Set([FromBody] MotorCommandRequest command, [FromServices] Orchestrator orchestrator) {
         _coreoGraphyName = command.Coreography;
-        _motor.Clear();
-        var result = Move(command);
-        var length = command.Color.Length;
-        if (length != _motor.Count) return result; // Ok(new {status = "ok"});
-        _led.SetColor(command.Color);
-        // for (int i = 0; i < length; i++) {
-        //     _led.SetColorSegment(command.Color[i], i * 24, 24);
-        // }
+        var positions = command.Position;
+        var colors = command.Color;
+        
+        // pastikan perintah valid
+        if (positions is null || positions.Length != orchestrator.Count) return BadRequest();
+        
+        // untuk warna, jika jumlah tidak sesuai, abaikan (warna tidak berubah)
+        var setColor = colors != null && colors.Length == orchestrator.Count;
+        
+        for (int i = 0; i < positions.Length; i++) {
+            orchestrator.SetPosition(i, positions[i]);
+            if (setColor) orchestrator.SetColor(i, colors![i]);
+        }
 
-        return result;
+        // jika variabel waktu tidak ada nilainya, maka akan menggunakan nilai sebelumnya
+        // variabel speed tidak lagi digunakan
+        if (command.Time is > 0) {
+            orchestrator.SetDuration(command.Time.Value);
+        }
+
+        orchestrator.Prepare();
+
+        return CoreographyOkResult.Create(command.Coreography);
     }
 
     /// <summary>
@@ -44,33 +59,30 @@ public class CoreographyController : ControllerBase {
     /// <returns></returns>
     [HttpPost("/coreography/check")]
     [HttpGet("/coreography/check")]
-    public IActionResult CheckCoreography() {
-        return CoreographyOkResult.Create(_coreoGraphyName);
-    }
+    public IActionResult CheckCoreography() => CoreographyOkResult.Create(_coreoGraphyName);
 
     /// <summary>
     /// Menjalankan koreografi yang sudah diset. Motor akan gerak.
     /// </summary>
     /// <returns></returns>
     [HttpPost("/coreography/go")]
-    public IActionResult Go() {
-        var result = _motor.Next() ? CoreographyOkResult.Create(_coreoGraphyName) : ErrorResult.Create("Tidak ada koreografi");
-        _led.SetColor();
-        return result;
+    public IActionResult Go([FromServices] Orchestrator orchestrator) {
+        orchestrator.Execute();
+        return CoreographyOkResult.Create(_coreoGraphyName);
     }
 
-    private IActionResult Move(MotorCommandRequest command) {
-        var posList = command.Position;
-        if (posList is null || posList.Length != _motor.Count) return ErrorResult.Create("Jumlah motor di perintah tidak sesuai");
-        if (command.Time is > 0) {
-            _motor.NewCommand(MotorCommand.WithDuration(posList, command.Time.Value));
-        } else if (command.Speed is null) {
-            _motor.NewCommand(new MotorCommand(posList));
-        } else {
-            var speed = command.Speed.Value;
-            _motor.NewCommand(new MotorCommand(speed, posList));
-        }
-
-        return CoreographyOkResult.Create(command.Coreography);
-    }
+    // private IActionResult Move(MotorCommandRequest command) {
+    //     var posList = command.Position;
+    //     if (posList is null || posList.Length != _motor.Count) return ErrorResult.Create("Jumlah motor di perintah tidak sesuai");
+    //     if (command.Time is > 0) {
+    //         _motor.NewCommand(MotorCommand.WithDuration(posList, command.Time.Value));
+    //     } else if (command.Speed is null) {
+    //         _motor.NewCommand(new MotorCommand(posList));
+    //     } else {
+    //         var speed = command.Speed.Value;
+    //         _motor.NewCommand(new MotorCommand(speed, posList));
+    //     }
+    //
+    //     return CoreographyOkResult.Create(command.Coreography);
+    // }
 }

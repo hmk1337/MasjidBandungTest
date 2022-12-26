@@ -42,13 +42,13 @@ public class InfoController : ControllerBase {
         );
     }
 
-    /// <summary>
-    /// Melihat pengaturan GRBL.
-    /// </summary>
-    /// <param name="motor"></param>
-    /// <returns></returns>
-    [HttpGet("/settings/grbl")]
-    public IActionResult Settings([FromServices] IMotorService motor) {
-        return Ok(motor.GetSettings());
-    }
+    // /// <summary>
+    // /// Melihat pengaturan GRBL.
+    // /// </summary>
+    // /// <param name="motor"></param>
+    // /// <returns></returns>
+    // [HttpGet("/settings/grbl")]
+    // public IActionResult Settings([FromServices] IMotorService motor) {
+    //     return Ok(motor.GetSettings());
+    // }
 }

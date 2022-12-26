@@ -1,10 +1,12 @@
+using MasjidBandung.Common;
+
 namespace MasjidBandung.Controllers;
 
 [Route("settings")]
 public class SettingsController : ControllerBase {
-    private readonly IMotorService _motorService;
+    private readonly Orchestrator _motorService;
 
-    public SettingsController(IMotorService motorService) {
+    public SettingsController(Orchestrator motorService) {
         _motorService = motorService;
     }
 
