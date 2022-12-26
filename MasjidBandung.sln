@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasjidBandung", "MasjidBandung.csproj", "{0C0CF419-AACF-4E57-8114-9913EB9B8061}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialEmulator", "SerialEmulator\SerialEmulator.csproj", "{7FC5BC3A-17F7-42B6-BC3C-D28EE271F706}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{2A7C478F-6197-40EA-B720-7517C264629E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C0CF419-AACF-4E57-8114-9913EB9B8061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C0CF419-AACF-4E57-8114-9913EB9B8061}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C0CF419-AACF-4E57-8114-9913EB9B8061}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C0CF419-AACF-4E57-8114-9913EB9B8061}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FC5BC3A-17F7-42B6-BC3C-D28EE271F706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FC5BC3A-17F7-42B6-BC3C-D28EE271F706}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FC5BC3A-17F7-42B6-BC3C-D28EE271F706}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FC5BC3A-17F7-42B6-BC3C-D28EE271F706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A7C478F-6197-40EA-B720-7517C264629E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A7C478F-6197-40EA-B720-7517C264629E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A7C478F-6197-40EA-B720-7517C264629E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A7C478F-6197-40EA-B720-7517C264629E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7DE8E9B-6393-4C60-A954-3BF680CB4219}
+	EndGlobalSection
+EndGlobal

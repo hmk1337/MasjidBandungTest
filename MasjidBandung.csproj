@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyVersion>1.2.5</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="kenssamson.rpi-ws281x-csharp" Version="1.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.3" />
+    <PackageReference Include="System.Device.Gpio" Version="2.1.0" />
+    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="SerialEmulator\**" />
+    <Compile Remove="Tests\**" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="SerialEmulator\**" />
+    <EmbeddedResource Remove="Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="SerialEmulator\**" />
+    <None Update="ws2811.o">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ws2811.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="SerialEmulator\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="SerialEmulator\obj\project.assets.json" />
+    <_ContentIncludedByDefault Remove="SerialEmulator\obj\project.packagespec.json" />
+    <_ContentIncludedByDefault Remove="SerialEmulator\obj\SerialEmulator.csproj.nuget.dgspec.json" />
+  </ItemGroup>
+
+</Project>

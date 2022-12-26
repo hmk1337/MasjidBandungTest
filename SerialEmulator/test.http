@@ -1,0 +1,28 @@
+POST http://10.147.20.71:8080/reset
+
+###
+
+GET http://10.147.20.71:8080/led?req=000000
+
+###
+
+POST http://10.147.20.71:8080/manual
+Content-Type: application/json
+
+{
+  "coreography": "tes",
+  "position": [
+    -1,
+    -1,
+    -1,
+    -1
+  ],
+  "color": [
+    "#ff00ff",
+    "#000000",
+    "#0000ff",
+    "#ffff00"
+  ],
+  "speed": 1000,
+  "time": 10
+}
