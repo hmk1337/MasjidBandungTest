@@ -194,7 +194,7 @@ public sealed class Orchestrator : IDisposable {
 
         // update posisi terakhir motor untuk perhitungan kecepatan berikutnya
         foreach (var motor in _motors) {
-            motor.LastPositionMillimeter = motor.PositionPercent;
+            motor.LastPositionMillimeter = motor.TargetPositionMillimeter;
         }
 
         _logger.LogInformation("Execute movement");

@@ -38,7 +38,10 @@ public sealed class CoreographyController : ControllerBase {
         var setColor = colors != null && colors.Length == orchestrator.Count;
         
         for (int i = 0; i < positions.Length; i++) {
-            orchestrator.SetPosition(i, positions[i]);
+            if (positions[i] >= 0) //update
+            {
+                orchestrator.SetPosition(i, positions[i]);
+            }
             if (setColor) orchestrator.SetColor(i, colors![i]);
         }
 

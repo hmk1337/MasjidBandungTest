@@ -152,7 +152,7 @@ public class GCode : IDisposable {
 
     private async Task GetStatusRoutine() {
         await Task.Delay(3000, _cancellationToken);
-        var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(1_500));
+        var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(500)); //1
         while (!_cancellationToken.IsCancellationRequested) {
             // await Task.Delay(1500, _cancellationToken);
             await timer.WaitForNextTickAsync(_cancellationToken);
@@ -289,7 +289,7 @@ public class GCode : IDisposable {
         try {
             _serial.WriteLine(command);
             _lastCommand = command;
-            Thread.Sleep(5);
+            Thread.Sleep(1);
             // await Task.Delay(5, _cancellationToken);
             Console.WriteLine($"{Id} - Sent: {command}");
         } catch (Exception ex) {
